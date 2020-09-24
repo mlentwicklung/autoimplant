@@ -139,7 +139,8 @@ class Generator(nn.Module):
         for _ in range(2):
             model += [  nn.ConvTranspose3d(in_features, out_features, 3, stride=2, padding=1, output_padding=1),
             # model += [  nn.ConvTranspose2d(in_features, out_features, 3, stride=2, padding=1, output_padding=1),
-                        nn.BatchNorm3d(out_features),
+                        # nn.BatchNorm3d(out_features),
+                        nn.InstanceNorm3d(out_features),
                         nn.ReLU(inplace=True) ]
             in_features = out_features
             out_features = in_features//1
@@ -177,7 +178,8 @@ class Decoder2D(nn.Module):
         # Initial convolution block       
         model = [   nn.ReplicationPad2d(3),
                     nn.Conv2d(input_nc, 32, 7),
-                    nn.BatchNorm2d(32),
+                    # nn.BatchNorm2d(32),
+                    nn.InstanceNorm2d(32),
                     nn.ReLU(inplace=True) ]
 
         # # Downsampling
@@ -203,8 +205,8 @@ class Decoder2D(nn.Module):
         for _ in range(2):
             model += [  nn.Upsample(scale_factor=np.sqrt(512/180), mode='nearest'),
             # model += [  nn.ConvTranspose2d(in_features, out_features, 3, stride=2, padding=1, output_padding=1),
-                        nn.BatchNorm2d(out_features),
-                        # nn.InstanceNorm3d(out_features),
+                        # nn.BatchNorm2d(out_features),
+                        nn.InstanceNorm2d(out_features),
                         nn.ReLU(inplace=True) ]
             in_features = out_features
             out_features = in_features//1
